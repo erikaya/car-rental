@@ -1,0 +1,62 @@
+buildscript {
+
+	repositories {
+		mavenCentral()
+	}
+
+	/*dependencies {
+		classpath "org.springframework.boot:spring-boot-gradle-plugin"
+		classpath "org.springframework.cloud:spring-cloud-contract-gradle-plugin:2.1.1.RELEASE"
+	}*/
+}
+
+plugins {
+	id 'org.springframework.boot' version '2.1.5.RELEASE'
+	id 'java'
+}
+
+apply plugin: 'io.spring.dependency-management'
+/*
+apply plugin: 'groovy'
+apply plugin: 'spring-cloud-contract'
+*/
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+repositories {
+	mavenCentral()
+	mavenLocal()
+}
+
+ext {
+	set('springCloudVersion', "Greenwich.SR1")
+}
+
+/*contracts {
+//	testMode = 'MockMvc'
+	baseClassForTests = 'com.example.frauddetection.BaseClass'
+//	generatedTestSourcesDir = project.file('src/generatedContract')
+}*/
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	compile 'org.springframework.cloud:spring-cloud-starter-stream-rabbit'
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.cloud:spring-cloud-starter-contract-stub-runner'
+	testCompile 'org.springframework.cloud:spring-cloud-stream-test-support'
+
+	testCompile 'org.springframework.cloud:spring-cloud-starter-contract-stub-runner'
+
+
+//	testCompile 'org.springframework.cloud:spring-cloud-starter-contract-verifier'
+
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
+}
