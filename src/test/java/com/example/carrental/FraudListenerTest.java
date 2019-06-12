@@ -9,13 +9,14 @@ import org.springframework.cloud.contract.stubrunner.spring.AutoConfigureStubRun
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.springframework.cloud.contract.stubrunner.spring.StubRunnerProperties.StubsMode.LOCAL;
+import static org.springframework.cloud.contract.stubrunner.spring.StubRunnerProperties.StubsMode.REMOTE;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureStubRunner(
-        ids = "com.example:fraud-detection",
-        stubsMode = LOCAL
+        repositoryRoot = "git://https://github.com/erikaya/spring-cloud-contracts-poc.git",
+        ids = "com.example:fraud-detection:0.0.1-SNAPSHOT",
+        stubsMode = REMOTE
 )
 class FraudListenerTest {
 
@@ -30,6 +31,6 @@ class FraudListenerTest {
         this.stubTrigger.trigger("trigger_fraud");
 
         then(fraudListener.fraud).isNotNull();
-        then(fraudListener.fraud.surname).isEqualTo("m");
+        then(fraudListener.fraud.name).isEqualTo("m");
     }
 }
